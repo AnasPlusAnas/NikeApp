@@ -1,24 +1,36 @@
 import React from 'react';
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import CartListItem from '../components/CartListItem';
-import cart from '../data/cart';
 import ShoppingCartTotals from '../components/ShoppingCartTotals';
+import { useSelector, useDispatch } from 'react-redux';
 
 //// Main Component
 const ShoppingCartScreen = () => {
-  return (
-    <>
-      <FlatList
-        data={cart}
-        renderItem={({ item }) => <CartListItem cartItem={item} />}
-        ListFooterComponent={<ShoppingCartTotals />}
-      />
+  const cart = useSelector((state) => state.cart.items);
 
-      <Pressable style={styles.button} onPress={() => {}}>
-        <Text style={styles.buttonText}>Checkout</Text>
-      </Pressable>
-    </>
-  );
+  if (cart.length != 0) {
+    return (
+      <>
+        <FlatList
+          data={cart}
+          renderItem={({ item }) => <CartListItem cartItem={item} />}
+          ListFooterComponent={<ShoppingCartTotals />}
+        />
+
+        <Pressable style={styles.button} onPress={() => {}}>
+          <Text style={styles.buttonText}>Checkout</Text>
+        </Pressable>
+      </>
+    );
+  } else {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text style={{ fontSize: 20, fontWeight: '500' }}>
+          Your cart is empty
+        </Text>
+      </View>
+    );
+  }
 };
 
 const styles = StyleSheet.create({

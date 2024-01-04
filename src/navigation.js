@@ -5,11 +5,14 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Pressable, Text } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
   const navigation = useNavigation();
+  const itemsCount = useSelector((state) => state.cart.itemsCount);
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -20,7 +23,7 @@ const Navigation = () => {
             <Pressable
               style={{
                 flexDirection: 'row',
-                marginRight: 10,
+                alignSelf: 'flex-start',
                 gap: 8,
               }}
               onPress={() => {
@@ -28,7 +31,9 @@ const Navigation = () => {
               }}
             >
               <FontAwesome5 name="shopping-cart" size={18} color="gray" />
-              <Text style={{ fontWeight: '500', fontSize: 16 }}>1</Text>
+              <Text style={{ fontWeight: '500', fontSize: 16 }}>
+                {itemsCount}
+              </Text>
             </Pressable>
           ),
         }}
